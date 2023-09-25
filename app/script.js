@@ -1,56 +1,61 @@
-// const state = {
-//   categories: [
-//     {
-//       id: 1234,
-//       name: "Computer Science",
-//     },
-//     {
-//       id: 2345,
-//       name: "Geology",
-//     },
-//   ],
-//   questions: [
-//     {
-//       id: 300,
-//       title: "What color is the sky?",
-//       options: [
-//         { id: 10, text: "Blue", isCorrect: true },
-//         { id: 20, text: "Red", isCorrect: false },
-//         { id: 30, text: "Green", isCorrect: false },
-//       ],
-//       category: 2345,
-//     },
-//     {
-//       id: 301,
-//       title: "Which is a CPU company?",
-//       options: [
-//         { id: 10, text: "Intel", isCorrect: false },
-//         { id: 20, text: "AMD", isCorrect: false },
-//         { id: 30, text: "all the above", isCorrect: true },
-//       ],
-//       category: 1234,
-//     },
-//   ],
-//   // page: "index", // 'question'
-// };
+const state = {
+  categories: [
+    {
+      id: 1234,
+      name: "Computer science",
+      value: "computer",
+    },
+    {
+      id: 2345,
 
+      name: "Biology",
+      value: "bio",
+    },
+  ],
+  questions: [
+    {
+      id: 300,
+      question: "What color is the sky?",
+      options: [
+        { id: 10, text: "Blue", isCorrect: true },
+        { id: 20, text: "Red", isCorrect: false },
+        { id: 30, text: "Green", isCorrect: false },
+      ],
+      category: 2345,
+    },
+    {
+      id: 301,
+      question: "Which is a CPU company?",
+      options: [
+        { id: 10, text: "Intel", isCorrect: false },
+        { id: 20, text: "AMD", isCorrect: false },
+        { id: 30, text: "all the above", isCorrect: true },
+      ],
+      category: 1234,
+    },
+  ],
+  // page: "index", // 'question'
+};
 
 const selectElement = document.getElementById("category");
 let selectedValue = "";
 const quiz = document.querySelector("#quiz");
 quiz.style.display = "none";
-const category = [
-  {
-    name: "Computer science",
-    value: "computer",
-  },
-  {
-    name: "Biology",
-    value: "bio",
-  },
-];
-for (let sub of category) {
+
+//   const category = [
+//     {
+//       name: "Computer science",
+//       value: "computer",
+//     },
+//     {
+//       name: "Biology",
+//       value: "bio",
+//     },
+//   ];
+
+for (let sub of state.categories) {
   const option = document.createElement("option");
+  option.id = sub.id;
   option.value = sub.value;
   option.textContent = sub.name;
 
@@ -59,69 +64,79 @@ for (let sub of category) {
 // Get the selected value and move to the respected page when the button is clicked
 document.getElementById("proceed").addEventListener("click", function () {
   selectedValue = selectElement.value;
+  const categoryIndex = state.categories.findIndex((item) => {
+    return item.value === selectedValue;
+  });
+  const getId = state.categories[categoryIndex].id;
+  console.log(getId);
   const container = document.querySelector(".container");
   container.style.display = "none";
   const quiz = document.querySelector("#quiz");
   quiz.style.display = "block";
+  setLocalStorageItem('selectedCategory', selectedValue);
   clearContent();
   appendToContent();
   appendToButton();
-  updateUiList(selectedValue);
+  updateUiList(getId);
 });
 //----------------------------------------------------------------------
 // function callQuestion(value){
 
-const computer = [
-  {
-    id: "1",
-    question: "Who is the father of Computer science?",
-    options: ["Charles Babbage", "right brothers", "william", "livingston"],
-    correctAns: "Charles Babbage",
-  },
-  {
-    id: "2",
-    question: "In a computer, most processing takes place in _______?",
-    options: ["CPU", "mouse", "keyboard", "monitor"],
-    correctAns: "CPU",
-  },
-  {
-    id: "3",
-    question: "Scientific Name of Computer?",
-    options: ["Sillico sapiens", "Hybrid Computer", "Interpreter", "comdpromt"],
-    correctAns: "Sillico sapiens",
-  },
-];
+// const computer = [
+//   {
+//     id: "1",
+//     question: "Who is the father of Computer science?",
+//     options: ["Charles Babbage", "right brothers", "william", "livingston"],
+//     correctAns: "Charles Babbage",
+//   },
+//   {
+//     id: "2",
+//     question: "In a computer, most processing takes place in _______?",
+//     options: ["CPU", "mouse", "keyboard", "monitor"],
+//     correctAns: "CPU",
+//   },
+//   {
+//     id: "3",
+//     question: "Scientific Name of Computer?",
+//     options: ["Sillico sapiens", "Hybrid Computer", "Interpreter", "comdpromt"],
+//     correctAns: "Sillico sapiens",
+//   },
+// ];
 
-const bio = [
-  {
-    id: "1",
-    question: "The human heart is ",
-    options: [" Neurogenic heart", "Myogenic heart", "Ampullary", "Pulsating"],
-    correctAns: "Myogenic heart",
-  },
-  {
-    id: "2",
-    question: "Spermology is the study of ",
-    options: ["Seed", "Leaf", "Fruit", "Pollen"],
-    correctAns: "Seed",
-  },
-  {
-    id: "3",
-    question: "Who is known as father of Zoology ",
-    options: ["Darwin", "Aristotle", "Aristotle", "Theophrastus"],
-    correctAns: "Aristotle",
-  },
-];
+// const bio = [
+//   {
+//     id: "1",
+//     question: "The human heart is ",
+//     options: [" Neurogenic heart", "Myogenic heart", "Ampullary", "Pulsating"],
+//     correctAns: "Myogenic heart",
+//   },
+//   {
+//     id: "2",
+//     question: "Spermology is the study of ",
+//     options: ["Seed", "Leaf", "Fruit", "Pollen"],
+//     correctAns: "Seed",
+//   },
+//   {
+//     id: "3",
+//     question: "Who is known as father of Zoology ",
+//     options: ["Darwin", "Aristotle", "Aristotle", "Theophrastus"],
+//     correctAns: "Aristotle",
+//   },
+// ];
 
-const questionCollection = {
-  computer: computer,
-  bio: bio,
-};
+// const questionCollection = {
+//   computer: computer,
+//   bio: bio,
+// };
 
 function updateUiList(value) {
-  
+  const question = state.questions.filter((item) => {
+    return item.category === value;
+  });
+  //  const getcategory=state.categories[categoryIndex].id;
+
   const app = document.querySelector("#app");
-  for (let mcq of questionCollection[value]) {
+  for (let mcq of question) {
     const event = MakeQuestionList(mcq);
     app.appendChild(event);
   }
@@ -130,7 +145,7 @@ function updateUiList(value) {
 }
 function clearContent() {
   const content = document.querySelector("#content");
-   content.innerHTML=""
+  content.innerHTML = "";
 }
 
 // const urlParams = new URLSearchParams(window.location.search);
@@ -159,12 +174,15 @@ function MakeQuestionList(mcq) {
 
     const inputRadio = document.createElement("input");
     inputRadio.setAttribute("type", "radio");
-    inputRadio.setAttribute("id", `radio-${mcq["id"]}`);
+    inputRadio.setAttribute("id", `${mcq["options"][i]["id"]}`);
     inputRadio.setAttribute("name", `answer-${mcq["id"]}`);
-    inputRadio.value = mcq.options[i];
+    inputRadio.value = mcq.options[i].text;
 
     label.appendChild(inputRadio);
-    label.appendChild(document.createTextNode(mcq.options[i]));
+    label.appendChild(document.createTextNode(mcq.options[i]["text"]));
+
+    console.log(mcq.options[i]);
+
     optionDiv.appendChild(label);
   }
   const resultdiv = document.createElement("div");
@@ -179,19 +197,27 @@ function MakeQuestionList(mcq) {
   const submit = document.querySelector("#submitBtn");
   submit.addEventListener("click", function () {
     const selected = document.querySelector(
-      `input[name="answer-${mcq.id}"]:checked`
+      `input[name="answer-${mcq["id"]}"]:checked`
     );
-
-    const checkAnswer = mcq.correctAns;
     if (selected) {
-      const selectedAnswer = selected.value;
-      if (checkAnswer == selectedAnswer) {
-        correctAnsShow(checkAnswer, `${mcq["id"]}`, "green");
+      const userAnswer = selected.value;
+      const answerIndex = mcq["options"].findIndex(
+        (item) => item.text === userAnswer
+      );
+      const correctIndex = mcq["options"].findIndex(
+        (item) => item.isCorrect === true
+      );
+      if (mcq["options"][answerIndex].isCorrect) {
+        // const crtAns=mcq["options"][answerIndex].text
+        correctAnsShow(mcq["options"][correctIndex].text, `${mcq["id"]}`, "green");
       } else {
-        correctAnsShow(checkAnswer, `${mcq["id"]}`, "red");
-      }
+        correctAnsShow(mcq["options"][correctIndex].text, `${mcq["id"]}`, "red");    
+        }
+      
     } else {
-      correctAnsShow(checkAnswer, `${mcq["id"]}`, "orange");
+      const correctIndex = mcq["options"].findIndex(
+        (item) => item.isCorrect === true);
+      correctAnsShow(mcq["options"][correctIndex].text, `${mcq["id"]}`, "orange");
     }
   });
 
@@ -211,7 +237,7 @@ function correctAnsShow(ans, resultId, add) {
 }
 
 function appendToButton() {
-  const buttondiv = document.querySelector("#buttons");
+  const app = document.querySelector("#buttons");
 
   const submit = document.createElement("button");
   submit.id = "submitBtn";
@@ -220,8 +246,8 @@ function appendToButton() {
   back.id = "backBtn";
   back.innerHTML = "Back";
 
-  buttondiv.appendChild(back);
-  buttondiv.appendChild(submit);
+  app.appendChild(back);
+  app.appendChild(submit);
 
   back.addEventListener("click", () => {
     const container = document.querySelector(".container");
@@ -231,7 +257,7 @@ function appendToButton() {
   });
 }
 function appendToContent() {
-  const content=document.querySelector("#content")
+  const content = document.querySelector("#content");
   const appDiv = document.createElement("div");
   appDiv.id = "app";
 
@@ -243,3 +269,25 @@ function appendToContent() {
   content.appendChild(appDiv);
   content.appendChild(buttonsDiv);
 }
+
+function setLocalStorageItem(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+    return true;
+}
+function getLocalStorageItem(key) {
+  try {
+    const storedValue = localStorage.getItem(key);
+    return storedValue ? JSON.parse(storedValue) : null;
+  } catch (error) {
+    console.error('Error retrieving data from localStorage:', error);
+    return null;
+  }
+}
+
+window.addEventListener('load', function () {
+  const storedCategory = getLocalStorageItem('selectedCategory');
+  if (storedCategory) {
+    selectElement.value = storedCategory;
+    document.getElementById("proceed").click();
+  }
+});
