@@ -61,9 +61,8 @@ for (let sub of state.categories) {
 
   selectElement.appendChild(option);
 }
-// Get the selected value and move to the respected page when the button is clicked
-document.getElementById("proceed").addEventListener("click", function () {
-  selectedValue = selectElement.value;
+
+function loadQuestionsFromCategory(selectedValue) {
   const categoryIndex = state.categories.findIndex((item) => {
     return item.value === selectedValue;
   });
@@ -73,11 +72,17 @@ document.getElementById("proceed").addEventListener("click", function () {
   container.style.display = "none";
   const quiz = document.querySelector("#quiz");
   quiz.style.display = "block";
-  setLocalStorageItem('selectedCategory', selectedValue);
+  setLocalStorageItem("selectedCategory", selectedValue);
   clearContent();
   appendToContent();
   appendToButton();
   updateUiList(getId);
+}
+
+// Get the selected value and move to the respected page when the button is clicked
+document.getElementById("proceed").addEventListener("click", function () {
+  selectedValue = selectElement.value;
+  loadQuestionsFromCategory(selectedValue);
 });
 //----------------------------------------------------------------------
 // function callQuestion(value){
@@ -209,15 +214,27 @@ function MakeQuestionList(mcq) {
       );
       if (mcq["options"][answerIndex].isCorrect) {
         // const crtAns=mcq["options"][answerIndex].text
-        correctAnsShow(mcq["options"][correctIndex].text, `${mcq["id"]}`, "green");
+        correctAnsShow(
+          mcq["options"][correctIndex].text,
+          `${mcq["id"]}`,
+          "green"
+        );
       } else {
-        correctAnsShow(mcq["options"][correctIndex].text, `${mcq["id"]}`, "red");    
-        }
-      
+        correctAnsShow(
+          mcq["options"][correctIndex].text,
+          `${mcq["id"]}`,
+          "red"
+        );
+      }
     } else {
       const correctIndex = mcq["options"].findIndex(
-        (item) => item.isCorrect === true);
-      correctAnsShow(mcq["options"][correctIndex].text, `${mcq["id"]}`, "orange");
+        (item) => item.isCorrect === true
+      );
+      correctAnsShow(
+        mcq["options"][correctIndex].text,
+        `${mcq["id"]}`,
+        "orange"
+      );
     }
   });
 
@@ -252,6 +269,7 @@ function appendToButton() {
   back.addEventListener("click", () => {
     const container = document.querySelector(".container");
     const quiz = document.querySelector("#quiz");
+    setLocalStorageItem("selectedCategory", "");
     quiz.style.display = "none";
     container.style.display = "block";
   });
@@ -271,23 +289,24 @@ function appendToContent() {
 }
 
 function setLocalStorageItem(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
-    return true;
+  localStorage.setItem(key, JSON.stringify(value));
+  return true;
 }
 function getLocalStorageItem(key) {
   try {
     const storedValue = localStorage.getItem(key);
     return storedValue ? JSON.parse(storedValue) : null;
   } catch (error) {
-    console.error('Error retrieving data from localStorage:', error);
+    console.error("Error retrieving data from localStorage:", error);
     return null;
   }
 }
 
-window.addEventListener('load', function () {
-  const storedCategory = getLocalStorageItem('selectedCategory');
+window.addEventListener("load", function () {
+  const storedCategory = getLocalStorageItem("selectedCategory");
   if (storedCategory) {
-    selectElement.value = storedCategory;
-    document.getElementById("proceed").click();
+    // selectElement.value = storedCategory;
+    // document.getElementById("proceed").click();
+    loadQuestionsFromCategory(storedCategory);
   }
 });
