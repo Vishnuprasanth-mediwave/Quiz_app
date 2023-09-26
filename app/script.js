@@ -62,17 +62,13 @@ for (let sub of state.categories) {
   selectElement.appendChild(option);
 }
 
-function loadQuestionsFromCategory(selectedValue) {
-  const categoryIndex = state.categories.findIndex((item) => {
-    return item.value === selectedValue;
-  });
-  const getId = state.categories[categoryIndex].id;
+function loadQuestionsFromCategory(getId) {
   console.log(getId);
   const container = document.querySelector(".container");
   container.style.display = "none";
   const quiz = document.querySelector("#quiz");
   quiz.style.display = "block";
-  setLocalStorageItem("selectedCategory", selectedValue);
+  setLocalStorageItem("selectedCategory", getId);
   clearContent();
   appendToContent();
   appendToButton();
@@ -82,7 +78,11 @@ function loadQuestionsFromCategory(selectedValue) {
 // Get the selected value and move to the respected page when the button is clicked
 document.getElementById("proceed").addEventListener("click", function () {
   selectedValue = selectElement.value;
-  loadQuestionsFromCategory(selectedValue);
+  const categoryIndex = state.categories.findIndex((item) => {
+    return item.value == selectedValue;
+  });
+  const getId = state.categories[categoryIndex].id;
+  loadQuestionsFromCategory(getId);
 });
 //----------------------------------------------------------------------
 // function callQuestion(value){
@@ -136,7 +136,7 @@ document.getElementById("proceed").addEventListener("click", function () {
 
 function updateUiList(value) {
   const question = state.questions.filter((item) => {
-    return item.category === value;
+    return item.category == value;
   });
   //  const getcategory=state.categories[categoryIndex].id;
 
@@ -181,7 +181,7 @@ function MakeQuestionList(mcq) {
     inputRadio.setAttribute("type", "radio");
     inputRadio.setAttribute("id", `${mcq["options"][i]["id"]}`);
     inputRadio.setAttribute("name", `answer-${mcq["id"]}`);
-    inputRadio.value = mcq.options[i].text;
+    inputRadio.value = mcq.options[i].id;
 
     label.appendChild(inputRadio);
     label.appendChild(document.createTextNode(mcq.options[i]["text"]));
@@ -207,10 +207,10 @@ function MakeQuestionList(mcq) {
     if (selected) {
       const userAnswer = selected.value;
       const answerIndex = mcq["options"].findIndex(
-        (item) => item.text === userAnswer
+        (item) => item.id == userAnswer
       );
       const correctIndex = mcq["options"].findIndex(
-        (item) => item.isCorrect === true
+        (item) => item.isCorrect == true
       );
       if (mcq["options"][answerIndex].isCorrect) {
         // const crtAns=mcq["options"][answerIndex].text
@@ -246,11 +246,11 @@ function correctAnsShow(ans, resultId, add) {
   const divId = `#question-${resultId}`;
   const divClass = "border-" + add;
   const div = document.querySelector(divId);
-  div.classList.add(divClass);
+  div.className = divClass;
   const selector = `#result-${resultId}`;
   const result = document.querySelector(selector);
   result.innerHTML = "Ans: " + ans;
-  result.classList.add(add);
+  result.ClassName = add;
 }
 
 function appendToButton() {
@@ -289,24 +289,19 @@ function appendToContent() {
 }
 
 function setLocalStorageItem(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
+  // localStorage.setItem(key, JSON.stringify(value));
+  localStorage.setItem(key, value);
   return true;
 }
 function getLocalStorageItem(key) {
-  try {
-    const storedValue = localStorage.getItem(key);
-    return storedValue ? JSON.parse(storedValue) : null;
-  } catch (error) {
-    console.error("Error retrieving data from localStorage:", error);
-    return null;
-  }
+  return localStorage.getItem(key);
 }
 
-window.addEventListener("load", function () {
+function isSavedInlocalStorage() {
   const storedCategory = getLocalStorageItem("selectedCategory");
   if (storedCategory) {
-    // selectElement.value = storedCategory;
-    // document.getElementById("proceed").click();
     loadQuestionsFromCategory(storedCategory);
+    console.log(storedCategory);
   }
-});
+}
+isSavedInlocalStorage();
