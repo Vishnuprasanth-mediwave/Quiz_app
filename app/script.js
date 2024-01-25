@@ -14,47 +14,72 @@ const state = {
   ],
   questions: [
     {
-      id: 300,
-      question: "What color is the sky?",
+      id: 307,
+      question: "What is the purpose of an IP address?",
       options: [
-        { id: 10, text: "Blue", isCorrect: true },
-        { id: 20, text: "Red", isCorrect: false },
-        { id: 30, text: "Green", isCorrect: false },
+        {
+          id: 15,
+          text: "To identify a computer or device on a network",
+          isCorrect: true,
+        },
+        { id: 26, text: "To store data in memory", isCorrect: false },
+        { id: 37, text: "To connect to the internet", isCorrect: false },
+      ],
+      category: 1234,
+    },
+
+    {
+      id: 308,
+      question: "What does HTML stand for?",
+      options: [
+        { id: 16, text: "Hyper Text Markup Language", isCorrect: true },
+        { id: 27, text: "High-level Text Modeling Language", isCorrect: false },
+        { id: 38, text: "Home Tool for Modern Language", isCorrect: false },
+      ],
+      category: 1234,
+    },
+
+    {
+      id: 309,
+      question: "What does CSS stand for?",
+      options: [
+        { id: 17, text: "Cascading Style Sheets", isCorrect: true },
+        { id: 28, text: "Computer Style System", isCorrect: false },
+        { id: 39, text: "Code Syntax Structure", isCorrect: false },
+      ],
+      category: 1234,
+    },
+
+    {
+      id: 313,
+      question:
+        "Which part of the human body is responsible for pumping blood?",
+      options: [
+        { id: 22, text: "Heart", isCorrect: true },
+        { id: 33, text: "Lungs", isCorrect: false },
+        { id: 44, text: "Kidneys", isCorrect: false },
       ],
       category: 2345,
     },
-
     {
-      id: 303,
-      question: "Which is a CPU company?",
+      id: 312,
+      question: "What is the process by which plants make their own food?",
       options: [
-        { id: 11, text: "Intel", isCorrect: false },
-        { id: 22, text: "AMD", isCorrect: false },
-        { id: 33, text: "all the above", isCorrect: true },
+        { id: 21, text: "Photosynthesis", isCorrect: true },
+        { id: 32, text: "Respiration", isCorrect: false },
+        { id: 43, text: "Fermentation", isCorrect: false },
       ],
-      category: 1234,
+      category: 2345,
     },
-
     {
-      id: 302,
-      question: "Which is a CPU company?",
+      id: 311,
+      question: "What is the powerhouse of the cell?",
       options: [
-        { id: 133, text: "Intel", isCorrect: false },
-        { id: 233, text: "AMD", isCorrect: false },
-        { id: 333, text: "all the above", isCorrect: true },
+        { id: 19, text: "Mitochondria", isCorrect: true },
+        { id: 30, text: "Nucleus", isCorrect: false },
+        { id: 40, text: "Endoplasmic Reticulum", isCorrect: false },
       ],
-      category: 1234,
-    },
-
-    {
-      id: 301,
-      question: "Which is a CPU company?",
-      options: [
-        { id: 111, text: "Intel", isCorrect: false },
-        { id: 222, text: "AMD", isCorrect: false },
-        { id: 311, text: "all the above", isCorrect: true },
-      ],
-      category: 1234,
+      category: 2345,
     },
   ],
   // page: "index", // 'question'
@@ -65,17 +90,6 @@ let selectedValue = "";
 const quiz = document.querySelector("#quiz");
 quiz.style.display = "none";
 loadQuestionsFromCategory;
-
-//   const category = [
-//     {
-//       name: "Computer science",
-//       value: "computer",
-//     },
-//     {
-//       name: "Biology",
-//       value: "bio",
-//     },
-//   ];
 
 for (let sub of state.categories) {
   const option = document.createElement("option");
@@ -111,55 +125,6 @@ document.getElementById("proceed").addEventListener("click", function () {
   const name = state.categories[categoryIndex].name;
   loadQuestionsFromCategory(getId, name);
 });
-//----------------------------------------------------------------------
-// function callQuestion(value){
-
-// const computer = [
-//   {
-//     id: "1",
-//     question: "Who is the father of Computer science?",
-//     options: ["Charles Babbage", "right brothers", "william", "livingston"],
-//     correctAns: "Charles Babbage",
-//   },
-//   {
-//     id: "2",
-//     question: "In a computer, most processing takes place in _______?",
-//     options: ["CPU", "mouse", "keyboard", "monitor"],
-//     correctAns: "CPU",
-//   },
-//   {
-//     id: "3",
-//     question: "Scientific Name of Computer?",
-//     options: ["Sillico sapiens", "Hybrid Computer", "Interpreter", "comdpromt"],
-//     correctAns: "Sillico sapiens",
-//   },
-// ];
-
-// const bio = [
-//   {
-//     id: "1",
-//     question: "The human heart is ",
-//     options: [" Neurogenic heart", "Myogenic heart", "Ampullary", "Pulsating"],
-//     correctAns: "Myogenic heart",
-//   },
-//   {
-//     id: "2",
-//     question: "Spermology is the study of ",
-//     options: ["Seed", "Leaf", "Fruit", "Pollen"],
-//     correctAns: "Seed",
-//   },
-//   {
-//     id: "3",
-//     question: "Who is known as father of Zoology ",
-//     options: ["Darwin", "Aristotle", "Aristotle", "Theophrastus"],
-//     correctAns: "Aristotle",
-//   },
-// ];
-
-// const questionCollection = {
-//   computer: computer,
-//   bio: bio,
-// };
 
 function updateUiList(value, name) {
   const question = state.questions.filter((item) => {
@@ -173,17 +138,12 @@ function updateUiList(value, name) {
     app.appendChild(event);
   }
   const heading = document.querySelector("#topic");
-  heading.innerHTML = `welcome to ${name} quiz App `;
+  heading.innerHTML = `Welcome to ${name} Quiz App `;
 }
 function clearContent() {
   const content = document.querySelector("#content");
   content.innerHTML = "";
 }
-
-// const urlParams = new URLSearchParams(window.location.search);
-// const myType = urlParams.get("type");
-
-// console.log(questionCollection[myType]);
 
 function MakeQuestionList(mcq) {
   const div = document.createElement("div");
@@ -257,11 +217,7 @@ function MakeQuestionList(mcq) {
       const correctIndex = mcq["options"].findIndex(
         (item) => item.isCorrect === true
       );
-      correctAnsShow(
-        mcq["options"][correctIndex].text,
-        `${mcq["id"]}`,
-        "orange"
-      );
+      correctAnsShow("please select Answer", `${mcq["id"]}`, "orange");
     }
   });
 
@@ -276,8 +232,8 @@ function correctAnsShow(ans, resultId, add) {
   div.className = divClass;
   const selector = `#result-${resultId}`;
   const result = document.querySelector(selector);
+  result.className = add;
   result.innerHTML = "Ans: " + ans;
-  result.ClassName = add;
 }
 
 function appendToButton() {
