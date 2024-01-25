@@ -12,28 +12,28 @@ const categories = [
 
 // questions json
 
-const questions = [
-  {
-    id: 300,
-    title: "What color is the sky?",
-    options: [
-      { id: 10, text: "Blue", isCorrect: true },
-      { id: 20, text: "Red", isCorrect: false },
-      { id: 30, text: "Green", isCorrect: false },
-    ],
-    category: 2345,
-  },
-  {
-    id: 301,
-    title: "Which is a CPU company?",
-    options: [
-      { id: 10, text: "Intel", isCorrect: false },
-      { id: 20, text: "AMD", isCorrect: false },
-      { id: 30, text: "all the above", isCorrect: true },
-    ],
-    category: 1234,
-  },
-];
+// const questions = [
+//   {
+//     id: 300,
+//     title: "What color is the sky?",
+//     options: [
+//       { id: 10, text: "Blue", isCorrect: true },
+//       { id: 20, text: "Red", isCorrect: false },
+//       { id: 30, text: "Green", isCorrect: false },
+//     ],
+//     category: 2345,
+//   },
+//   {
+//     id: 301,
+//     title: "Which is a CPU company?",
+//     options: [
+//       { id: 10, text: "Intel", isCorrect: false },
+//       { id: 20, text: "AMD", isCorrect: false },
+//       { id: 30, text: "all the above", isCorrect: true },
+//     ],
+//     category: 1234,
+//   },
+// ];
 
 const state = {
   categories: [
@@ -47,18 +47,39 @@ const state = {
     },
   ],
   questions: [
-    {
-      id: 300,
-      title: "What color is the sky?",
-      options: [
-        { id: 10, text: "Blue", isCorrect: true },
-        { id: 20, text: "Red", isCorrect: false },
-        { id: 30, text: "Green", isCorrect: false },
-      ],
-      category: 2345,
-    },
+    // {
+    //   id: 300,
+    //   title: "What color is the sky?",
+    //   options: [
+    //     { id: 10, text: "Blue", isCorrect: true },
+    //     { id: 20, text: "Red", isCorrect: false },
+    //     { id: 30, text: "Green", isCorrect: false },
+    //   ],
+    //   category: 2345,
+    // },
+
     {
       id: 301,
+      title: "Which is a CPU company?",
+      options: [
+        { id: 10, text: "Intel", isCorrect: false },
+        { id: 20, text: "AMD", isCorrect: false },
+        { id: 30, text: "all the above", isCorrect: true },
+      ],
+      category: 1234,
+    },
+    {
+      id: 303,
+      title: "Which is a CPU company?",
+      options: [
+        { id: 10, text: "Intel", isCorrect: false },
+        { id: 20, text: "AMD", isCorrect: false },
+        { id: 30, text: "all the above", isCorrect: true },
+      ],
+      category: 1234,
+    },
+    {
+      id: 302,
       title: "Which is a CPU company?",
       options: [
         { id: 10, text: "Intel", isCorrect: false },
@@ -131,7 +152,7 @@ function setLocalStorageItem(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
     return true; // Data successfully stored
   } catch (error) {
-    console.error('Error storing data in localStorage:', error);
+    console.error("Error storing data in localStorage:", error);
     return false; // Failed to store data
   }
 }
@@ -141,7 +162,7 @@ function getLocalStorageItem(key) {
     const storedValue = localStorage.getItem(key);
     return storedValue ? JSON.parse(storedValue) : null;
   } catch (error) {
-    console.error('Error retrieving data from localStorage:', error);
+    console.error("Error retrieving data from localStorage:", error);
     return null;
   }
 }
@@ -177,7 +198,7 @@ document.getElementById("proceed").addEventListener("click", function () {
   // Proceed data get
   selectedValue = selectElement.value;
   // Store selectedValue in localStorage
-  setLocalStorageItem('selectedCategory', selectedValue);
+  setLocalStorageItem("selectedCategory", selectedValue);
   // Container hide
   const container = document.querySelector(".container");
   container.style.display = "none";
@@ -192,8 +213,8 @@ document.getElementById("proceed").addEventListener("click", function () {
 });
 // ...
 // On page load, retrieve the selected category from localStorage
-window.addEventListener('load', function () {
-  const storedCategory = getLocalStorageItem('selectedCategory');
+window.addEventListener("load", function () {
+  const storedCategory = getLocalStorageItem("selectedCategory");
   if (storedCategory) {
     selectElement.value = storedCategory;
     // Also, you might want to trigger the event as if the user had clicked "proceed" again

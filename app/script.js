@@ -23,13 +23,36 @@ const state = {
       ],
       category: 2345,
     },
+
+    {
+      id: 303,
+      question: "Which is a CPU company?",
+      options: [
+        { id: 11, text: "Intel", isCorrect: false },
+        { id: 22, text: "AMD", isCorrect: false },
+        { id: 33, text: "all the above", isCorrect: true },
+      ],
+      category: 1234,
+    },
+
+    {
+      id: 302,
+      question: "Which is a CPU company?",
+      options: [
+        { id: 133, text: "Intel", isCorrect: false },
+        { id: 233, text: "AMD", isCorrect: false },
+        { id: 333, text: "all the above", isCorrect: true },
+      ],
+      category: 1234,
+    },
+
     {
       id: 301,
       question: "Which is a CPU company?",
       options: [
-        { id: 10, text: "Intel", isCorrect: false },
-        { id: 20, text: "AMD", isCorrect: false },
-        { id: 30, text: "all the above", isCorrect: true },
+        { id: 111, text: "Intel", isCorrect: false },
+        { id: 222, text: "AMD", isCorrect: false },
+        { id: 311, text: "all the above", isCorrect: true },
       ],
       category: 1234,
     },
@@ -41,6 +64,7 @@ const selectElement = document.getElementById("category");
 let selectedValue = "";
 const quiz = document.querySelector("#quiz");
 quiz.style.display = "none";
+loadQuestionsFromCategory;
 
 //   const category = [
 //     {
@@ -62,17 +86,19 @@ for (let sub of state.categories) {
   selectElement.appendChild(option);
 }
 
-function loadQuestionsFromCategory(getId) {
-  console.log(getId);
+function loadQuestionsFromCategory(getId, name) {
+  console.log(getId, name);
   const container = document.querySelector(".container");
   container.style.display = "none";
   const quiz = document.querySelector("#quiz");
   quiz.style.display = "block";
-  setLocalStorageItem("selectedCategory", getId);
+  const store = { id: getId, name: name };
+  localStorage.setItem("selectedCategory", JSON.stringify(store));
+
   clearContent();
   appendToContent();
   appendToButton();
-  updateUiList(getId);
+  updateUiList(getId, name);
 }
 
 // Get the selected value and move to the respected page when the button is clicked
@@ -82,7 +108,8 @@ document.getElementById("proceed").addEventListener("click", function () {
     return item.value == selectedValue;
   });
   const getId = state.categories[categoryIndex].id;
-  loadQuestionsFromCategory(getId);
+  const name = state.categories[categoryIndex].name;
+  loadQuestionsFromCategory(getId, name);
 });
 //----------------------------------------------------------------------
 // function callQuestion(value){
@@ -134,7 +161,7 @@ document.getElementById("proceed").addEventListener("click", function () {
 //   bio: bio,
 // };
 
-function updateUiList(value) {
+function updateUiList(value, name) {
   const question = state.questions.filter((item) => {
     return item.category == value;
   });
@@ -146,7 +173,7 @@ function updateUiList(value) {
     app.appendChild(event);
   }
   const heading = document.querySelector("#topic");
-  heading.innerHTML = "welcome to quiz of " + value;
+  heading.innerHTML = `welcome to ${name} quiz App `;
 }
 function clearContent() {
   const content = document.querySelector("#content");
@@ -291,6 +318,7 @@ function appendToContent() {
 function setLocalStorageItem(key, value) {
   // localStorage.setItem(key, JSON.stringify(value));
   localStorage.setItem(key, value);
+  console.log(value);
   return true;
 }
 function getLocalStorageItem(key) {
@@ -298,10 +326,11 @@ function getLocalStorageItem(key) {
 }
 
 function isSavedInlocalStorage() {
-  const storedCategory = getLocalStorageItem("selectedCategory");
+  const storedCategory = JSON.parse(getLocalStorageItem("selectedCategory"));
   if (storedCategory) {
-    loadQuestionsFromCategory(storedCategory);
-    console.log(storedCategory);
+    loadQuestionsFromCategory(storedCategory.id, storedCategory.name);
+    console.log(storedCategory.id);
+    console.log("hello");
   }
 }
 isSavedInlocalStorage();
